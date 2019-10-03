@@ -45,12 +45,31 @@
       const data = await response.json()
       return data;
     }
-
+    const $home = document.getElementById('home')
     const $form = document.getElementById('form')
+    const $featuringContainer = document.getElementById('featuring')
+
+
+
+
+    function setAtributes($element, attributes){
+      for(const attribute in attributes){
+        $element.setAttribute(attribute, attributes[attribute])
+      }
+    }
+
+
+
+
     $form.addEventListener('submit', (event) => {
       event.preventDefault()
-      console.log(event);
-      
+      $home.classList.add('search-active')
+      const $loader = document.createElement('img')
+      setAtributes($loader,{src:'src/images/loader.gif',
+      height: 50,
+      width:50
+    })
+    $featuringContainer.append($loader)
     })
     const actionList = await getData('https://yts.lt/api/v2/list_movies.json?genre=action')
     const animationList = await getData('https://yts.lt/api/v2/list_movies.json?genre=animation')
@@ -82,7 +101,7 @@
     }
 
     function addEventClick($element){
-      $element.addEventListener('click',() => alert('Hola'))
+      $element.addEventListener('click',() =>showModal())
     }
 
 
@@ -112,16 +131,27 @@
 
 
 
-    const $home = $('.home') // con jquery
+    
     const $modal = document.getElementById('modal')//con JS
     const $overlay = document.getElementById('overlay')
     const $hideModal = document.getElementById('hide-modal')
     const $modalTitle = $modal.querySelector('h1')
     const $modalImage = $modal.querySelector('img')
     const $modalDescription = $modal.querySelector('p')
-    const $featuringContainer = document.getElementById('#featuring')
+    
+
+     showModal = () =>{
+      $overlay.classList.add('active');
+      $modal.style.animation = 'modalIn .8s forwards'
+    }
     
     
+    hideModal = () => {
+      $overlay.classList.remove('active');
+      $modal.style.animation = 'modalOut .8s forwards'
+    }
+    
+    $hideModal.addEventListener('click', hideModal)
     
     //TEMPLATE
    
